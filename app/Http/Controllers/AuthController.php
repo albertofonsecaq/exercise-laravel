@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Rol;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
+
     public function register(Request $request)
     {
         $request->validate([
@@ -19,15 +20,17 @@ class AuthController extends Controller
             'rol' => [
                     'required',
                     Rule::in(['Administrador', 'Usuario'])
-                ]
+                ],
+            'first_name' => 'nullable',
+            'last_name' => 'nullable',
+            'rut' => 'nullable'
         ]);
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password)
-        ]);
-        $user->rol()->associate(Rol::where('name',$request->rol)->first());
+        $input = $request->all();
+        Arr::set($input,'password',bcrypt($input['password']));
+        $user = User::create($input);
+        $user->rol()->associate(Rol::where('name',$input['rol'])->first());
         $user->save();
+
         return response()->json($user);
     }
 
@@ -37,8 +40,8 @@ class AuthController extends Controller
             'email' => 'required|email|exists:users,email',
             'password' => 'required'
         ]);
-
         if( Auth::attempt(['email'=>$request->email, 'password'=>$request->password]) ) {
+
             $user = Auth::user();
 
             $userRole = $user->rol()->first();
@@ -52,11 +55,6 @@ class AuthController extends Controller
                 'token' => $token->accessToken
             ]);
         }
-    }
-
-    public function test(Request $request)
-    {
-        return response()->json(['status' => true],200);
     }
 
 }
