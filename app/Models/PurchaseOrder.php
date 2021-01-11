@@ -31,11 +31,10 @@ class PurchaseOrder extends Model
     public function products()
     {
         return $this->belongsToMany(
-            PurchaseOrder::class,
+            Product::class,
             'order_product',
             'purchase_order_id',
             'product_id'
-
         )
             ->withPivot('count_product')
             ->withTimestamps();

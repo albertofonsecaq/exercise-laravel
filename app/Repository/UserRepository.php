@@ -17,6 +17,10 @@ use Yajra\DataTables\Facades\DataTables;
 
 class UserRepository
 {
+    /**
+     * @return mixed
+     * @throws \Exception
+     */
     public function getUsersRolUsuario()
     {
         $users = User::whereHas('rol',function ($query){

@@ -27,6 +27,11 @@ Route::middleware(['auth:api', 'role'])->group(function() {
         Route::get('lista_ordenes', 'PurchaseOrderController@listOrders')->name('orders.list');
     });
 
+    Route::get('usuario/{id}', 'UserController@show');
+    Route::get('usuario/{id}/ordenes', 'PurchaseOrderController@getOrdersByUser');
+    Route::get('usuario/{id}/direcciones', 'AddressController@getAddressByUser');
+
+
     Route::middleware(['scope:Usuario'])->group(function () {
 
     });
