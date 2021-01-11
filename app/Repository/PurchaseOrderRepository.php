@@ -45,4 +45,15 @@ class PurchaseOrderRepository
             ->toArray();
         return $orders;
     }
+
+    public function getOrdersWithUser()
+    {
+        $orders = PurchaseOrder::with('user')
+            ->with('address')
+            ->with('products');
+
+        return DataTables::of($orders)
+            ->addIndexColumn()
+            ->make(true);
+    }
 }

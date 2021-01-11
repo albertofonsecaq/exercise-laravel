@@ -30,4 +30,19 @@ class UserRepository
             ->addIndexColumn()
             ->make(true);
     }
+
+    /**
+     * @return mixed
+     * @throws \Exception
+     */
+    public function usersWithAddress()
+    {
+        $users = User::whereHas('rol',function ($query){
+                    $query->where('name',RolesEnum::user);
+                })
+                ->with('address');
+        return DataTables::of($users)
+            ->addIndexColumn()
+            ->make(true);
+    }
 }

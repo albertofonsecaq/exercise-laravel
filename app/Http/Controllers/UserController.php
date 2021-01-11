@@ -44,5 +44,10 @@ class UserController extends Controller
         return response()->json($user->toArray(),'200');
     }
 
+    public function usersWithAddress(Request $request)
+    {
+        return $this->userRepository->usersWithAddress();
+    }
+
 
 }

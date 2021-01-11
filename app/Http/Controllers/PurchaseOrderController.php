@@ -44,4 +44,14 @@ class PurchaseOrderController extends Controller
         $orders = $this->purchaseOrderRepository->getOrdersByUser($user);
         return response()->json(['data'=>$orders],200);
     }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function getOrdersWithUser(Request $request)
+    {
+        return $this->purchaseOrderRepository->getOrdersWithUser();
+    }
+
 }
