@@ -38,6 +38,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'full_name'
+    ];
+
+    public function getFullNameAttribute()
+    {
+        return $this->name . ' ' . $this->first_name . ' ' . $this->last_name;
+    }
+
     //=============================================================
     /**
      * Relations

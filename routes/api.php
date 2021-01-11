@@ -20,6 +20,11 @@ Route::middleware(['auth:api', 'role'])->group(function() {
 
     Route::middleware(['scope:Administrador'])->group(function () {
 
+        Route::get('usuarios', 'UserController@index');
+        Route::get('lista_usuarios', 'UserController@listUsers')->name('users.list');
+
+        Route::get('ordenes', 'PurchaseOrderController@index');
+        Route::get('lista_ordenes', 'PurchaseOrderController@listOrders')->name('orders.list');
     });
 
     Route::middleware(['scope:Usuario'])->group(function () {
