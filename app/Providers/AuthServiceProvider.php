@@ -38,6 +38,7 @@ class AuthServiceProvider extends ServiceProvider
             'Administrador'
         ]);
 
+        Passport::cookie('custom_name');
         //
     }
 }
