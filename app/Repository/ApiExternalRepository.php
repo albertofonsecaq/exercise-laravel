@@ -2,24 +2,37 @@
 /**
  * Created by PhpStorm.
  * User: albert
- * Date: 10/01/21
- * Time: 23:34
+ * Date: 11/01/21
+ * Time: 0:07
  */
 
 namespace App\Repository;
 
-
-use App\Product;
+use App\Library\ApiExternal;
+use App\Post;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
-class ProductRepository
+
+class ApiExternalRepository
 {
-    /**
-     * @return mixed
-     * @throws \Exception
-     */
-    public function allProduct()
+
+    public function store()
     {
-        $object = Product::paginate()->toArray();
+        $url = 'https://jsonplaceholder.typicode.com/posts';
+        $api = new ApiExternal($url);
+        $data = $api->getJsonWithOutParameter();
+        if(count($data) > 0)
+        {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0');
+            DB::table('post')->truncate();
+            foreach ($data as $row)
+                Post::create($row);
+        }
+    }
+
+    public function listData()
+    {
+        $object = Post::paginate()->toArray();
         return DataTables::of($object['data'])
             ->with([
                 "recordsTotal" => $object['total'],
@@ -36,7 +49,6 @@ class ProductRepository
                 "to" => $object['to'],
                 "total" => $object['to']
             ])
-            ->make(true);
-
+             ->make(true);
     }
 }

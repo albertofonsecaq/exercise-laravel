@@ -39,6 +39,10 @@ Route::middleware(['auth:api', 'role'])->group(function() {
     Route::get('usuario/{id}/direcciones', 'AddressController@getAddressByUser');
 
 
+    /** Api extern */
+    Route::post('api_extern', 'ApiExternalController@store');
+    Route::post('lista_datos_api_extern', 'ApiExternalController@listData');
+
     Route::middleware(['scope:Usuario'])->group(function () {
 
     });

@@ -23,11 +23,25 @@ class UserRepository
      */
     public function getUsersRolUsuario()
     {
-        $users = User::whereHas('rol',function ($query){
+        $object = User::whereHas('rol',function ($query){
             $query->where('name',RolesEnum::user);
-        });
-        return DataTables::of($users)
-            ->addIndexColumn()
+        })->paginate()->toArray();
+        return DataTables::of($object['data'])
+            ->with([
+                "recordsTotal" => $object['total'],
+                "recordsFiltered" => $object['per_page'],
+                "current_page" => $object['current_page'],
+                "first_page_url" => $object['first_page_url'],
+                "from" => $object['from'],
+                "last_page" => $object['last_page'],
+                "last_page_url" => $object['last_page_url'],
+                "next_page_url" => $object['next_page_url'],
+                "path" => $object['path'],
+                "per_page" => $object['per_page'],
+                "prev_page_url"=> $object['prev_page_url'],
+                "to" => $object['to'],
+                "total" => $object['to']
+            ])
             ->make(true);
     }
 
@@ -37,12 +51,27 @@ class UserRepository
      */
     public function usersWithAddress()
     {
-        $users = User::whereHas('rol',function ($query){
+        $object = User::whereHas('rol',function ($query){
                     $query->where('name',RolesEnum::user);
                 })
-                ->with('address');
-        return DataTables::of($users)
-            ->addIndexColumn()
+                ->with('address')
+                ->paginate()->toArray();
+        return DataTables::of($object['data'])
+            ->with([
+                "recordsTotal" => $object['total'],
+                "recordsFiltered" => $object['per_page'],
+                "current_page" => $object['current_page'],
+                "first_page_url" => $object['first_page_url'],
+                "from" => $object['from'],
+                "last_page" => $object['last_page'],
+                "last_page_url" => $object['last_page_url'],
+                "next_page_url" => $object['next_page_url'],
+                "path" => $object['path'],
+                "per_page" => $object['per_page'],
+                "prev_page_url"=> $object['prev_page_url'],
+                "to" => $object['to'],
+                "total" => $object['to']
+            ])
             ->make(true);
     }
 }
