@@ -44,9 +44,9 @@
             columns: [
                 {data: 'id', name: 'id'},
                 {data: 'code', name: 'code'},
-                {data: 'name_user', name: 'name_user'},
+                {data: 'user.full_name', name: 'user.full_name'},
                 {data: 'created_at', name: 'created_at'},
-                {data: 'addresss', name: 'addresss'},
+                {data: 'address.description', name: 'address.description'},
                 {
                     data: 'action',
                     name: 'action',
